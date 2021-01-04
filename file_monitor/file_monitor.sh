@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 
 # Usage
@@ -42,28 +42,13 @@
 echo "Watch $1 for file changes..."
 
 # FUNCTIONS #
-# is_dir(){
-#  if [[ $1 == *"ISDIR"* ]]
-#  then
-#    true
-#  else
-#    false
-#  fi
-# }
-
-# contains(string, substring)
-#
-# Returns 0 if the specified string contains the specified substring,
-# otherwise returns 1.
-event_contains() {
-    string="$1"
-    substring="$2"
-    if test "${string#*$substring}" != "$string"
-    then
-        return 0    # $substring is in $string
-    else
-        return 1    # $substring is not in $string
-    fi
+is_dir(){
+  if [[ $1 == *"ISDIR"* ]]
+  then
+    true
+  else
+    false
+  fi
 }
 
 deleted_file() {
@@ -89,16 +74,11 @@ inotifywait \
   echo "Extension:" ${filename##*.}
   echo "Event: $event"
 
-  if event_contains "$event" "ISDIR"
-  then
-    echo "$filename is a directory"
-  fi
+  if is_dir $event; then echo "is directory"; else echo "no directory"; fi
 
   if [ "$event" = "DELETE" ]; then
       deleted_file $filename
   fi
-
-
 
   # Run command
   # python3 /app/something.py --custom $dir$filename $dir${filename%.*}.txt /tmp/${filename%.*}

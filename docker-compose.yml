@@ -1,0 +1,7 @@
+version: "3.3"
+
+services:
+  file_monitor:
+    build: ./file_monitor
+    volumes:
+        - ./archive:/archive
